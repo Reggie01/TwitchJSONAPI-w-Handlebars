@@ -1,0 +1,107 @@
+﻿<!DOCTYPE html>
+<html lang="en-us">
+
+<head>
+  <meta charset="utf-8" >
+  <meta name="viewport" content="width=device-width, initial-scale=1" >
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge">
+  <meta name="description" content="Zipline: Use the Twitchtv JSON API Zipline to create an app that checks if a streamer is online status. If the streamer is online, allow user to go to twitch page." >
+  <meta name="keywords" content="fcc, zipline, fcc" >
+  <link href='http://fonts.googleapis.com/css?family=Roboto:400,100,300,500,700,900' rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" >
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css" >
+  <link rel="stylesheet" href="main.css" >
+  <title>Twitchtv Streamer Status</title>
+  <!--[if lte IE 8]>
+	    <link rel="stylesheet" type="text/css" href="ie8-and-down.css" />
+  <![endif]-->
+</head>
+
+<body>
+  <div class="container">
+    <div class="page-header">
+      <h2>Twitch Streamers Status</h2>
+    </div>
+
+    <form>
+      <input class="form-control" id="twitch_user" type="text" placeholder="Twitch Streamer">
+      <button class="btn btn-primary" id="btn_twitch_user" type="submit">Submit</button>
+    </form>
+
+
+    <ul class="nav nav-tabs" id="myTabs" role="tablist">
+      <li class="active" role="presentation"><a id="all_users_tab" href="#users" role="tab" aria-controls="all_users_tab" aria-expanded="true">All</a>
+      </li>
+      <li role="presentation" class><a id="online_tab" href="#online" role="tab" aria-controls="online" aria-expanded="false">Online</a>
+      </li>
+      <li role="presentation" class><a id="offline_tab" href="#offline" role="tab" aria-controls="offline" aria-expanded="false">Offline</a>
+      </li>
+    </ul>
+
+    <div class="tab-content" id="myTabContent">
+      <div class="tab-pane fade active in " id="users" role="tabpanel" aria-labelledby="all_users_tab">
+
+
+        <ul class="list-group" id="twitch_users_all">
+
+        </ul>
+
+      </div>
+      <div class="tab-pane fade" id="online" role="tabpanel" aria-labelledby="online_tab">
+
+
+        <ul class="list-group" id="twitch_users_online">
+
+        </ul>
+
+      </div>
+      <div class="tab-pane fade " id="offline" role="tabpanel" aria-labelledby="offline_tab">
+
+
+        <ul class="list-group" id="twitch_users_offline">
+
+        </ul>
+
+      </div>
+    </div>
+  </div>
+  
+  <div id="handle"></div>
+  
+  <footer>
+    <div class="container">
+      <div class="footer-bottom-section">
+        &copy; 2015 Reggie Sanders. All Rights Reserved.
+      </div>
+
+    </div>
+  </footer>
+  <script src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.5/handlebars.min.js"></script>
+  <script id="list-template" type="text/x-handlebars-template">
+    {{#each items}}
+      <li class="list-group-item row">
+      <div class="media">
+        <div class="col-xs-12 col-sm-4">
+          <a href="{{url}}">
+            <img class="img-circle img-responsive center-block" src="{{logo}}">
+          </a>
+        </div>
+        <div class="col-xs-12 col-sm-4">
+          <h4 class="media-heading">{{name}}</h4>
+          <h6>{{statusDetails}}</h6>
+        </div>
+        <div class="col-xs-12 col-sm-4">
+          <a class="" href="{{url}}" target="_blank">
+          <i class="{{mediaIcon}}"></i><span>{{status}}</span>
+        </a>
+       </div>
+      </div>
+    </li>
+    {{/each}}
+  </script>
+  <script src="index.js"></script>
+</body>
+
+</html>
