@@ -171,7 +171,7 @@
         $.when.apply($, checkOnlineStatus(users)).
         then(getTwitchUsersAndAddToList).
         fail( AjaxErrorHandler );
-    }
+    };
     
     var streamerAjax = function (url) {
 

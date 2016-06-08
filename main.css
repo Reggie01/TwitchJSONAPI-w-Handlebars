@@ -279,19 +279,6 @@ footer {
 /* 7. Media Queries
 ------------------------------ */
 
-@media (max-width: 330px) {
-    .button_icons_only {  display: block;  }
-    
-    .button_words {  display: none;  }
-    
-}
-@media (min-width: 410px) and (max-width: 768px) {
-    .time-length-container {  width: 50%;  }
-    
-    .time-length-container button {  margin: 0;  }
-    
-}
-
 @media (max-width: 800px) {
     body {
         font-size: 18px;
