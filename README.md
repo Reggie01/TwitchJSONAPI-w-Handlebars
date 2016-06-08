@@ -2,8 +2,8 @@
 
 This is the handlebars version of FreeCodeCamp Zipline project "[Twitch JSON API](http://www.freecodecamp.com/challenges/use-the-twitchtv-json-api)". Follow the link
 to see all user stories for the [project](http://www.freecodecamp.com/challenges/use-the-twitchtv-json-api).
-This version of the Twitch JSON API is at [codepen](http://codepen.io/Reggie01/pen/WwNbjg)
-My first version of the Twitch JSON API is at [codepen](http://codepen.io/Reggie01/pen/BoKYaw).
+This version of the Twitch JSON API is at [codepen](http://codepen.io/Reggie01/full/WwNbjg/)
+My first version of the Twitch JSON API is at [codepen](http://codepen.io/Reggie01/full/BoKYaw/).
 
 ### User Stories
 * I can see whether Free Code Camp is currently streaming on Twitch.tv.
