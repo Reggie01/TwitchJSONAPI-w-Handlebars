@@ -1,10 +1,10 @@
-﻿$(document).ready(function () {
+﻿(function () {
     
     // Compile handlebars template
     var source   = $("#list-template").html();
     var template = Handlebars.compile(source);
     
-    var twitchStreamers = ["brunofin", "Dota2ruhub", "freecodecamp", "nightblue3", "ratsmah", "trumpsc" ];
+    var twitchStreamers = ["brunofin", "freecodecamp", "nightblue3", "teamtalima", "trumpsc" ];
     var allTwitchStreamers = {};
     
     // Cache DOM
@@ -14,10 +14,6 @@
     $twitchUsersOnline = $("#twitch_users_online");
     $twitchUsersOffline = $("#twitch_users_offline");
     $twitchUsersAll = $("#twitch_users_all");
-    
-    // Regex for finding Streamer name
-    // TODO: remove code 
-    // var matchChannelAndName = /(\/channels\/+)(.*)/;
     
     function twitchSubmitUser( e ){
         e.preventDefault();
@@ -51,44 +47,37 @@
 
     function createListItems( streamers ) {
         
-        var streamersOnline = streamers
-                                                .filter(function( streamer ){
-                                                     return streamer.status === "online";
-                                                })
-                                                .sort( sortTwitchStreamersAscend );
+        var streamersOnline = streamers.filter(function( streamer ){
+                                                             return streamer.status === "online";
+                                                          })
+                                                          .sort( sortTwitchStreamersAscend );
                
         var onlineTemplateString = template({ items: streamersOnline });        
         $twitchUsersOnline.html( onlineTemplateString );
         
-        var streamersOffline = streamers
-                                                .filter(function( streamer ) {
-                                                  return streamer.status === "offline";
-                                                })
-                                                .sort( sortTwitchStreamersAscend );
+        var streamersOffline = streamers.filter(function( streamer ) {
+                                                            return streamer.status === "offline";
+                                                          })
+                                                          .sort( sortTwitchStreamersAscend );
         
         var offlineTemplateString = template({ items: streamersOffline });
         $twitchUsersOffline.html( offlineTemplateString );       
         
-        // var sortedOnlineStatus = user.sort( sortTwitchStreamersOnlineStatus );
         var sortedOnlineStatus = streamers.slice()
-                                               .sort( function( a, b ) {
-                                                var nameA = a.name.toLowerCase();
-                                                var nameB = b.name.toLowerCase();
-                                                if( a.status !== b.status ) {
-                                                  return a.status > b.status ? -1 : 1;
-                                                }
+                                                              .sort( function( a, b ) {
+                                                                var nameA = a.name.toLowerCase();
+                                                                var nameB = b.name.toLowerCase();
+                                                                if( a.status !== b.status ) {
+                                                                  return a.status > b.status ? -1 : 1;
+                                                                }
                                                 
-                                                if( a.status === b.status ) {
-                                                  return nameA > nameB ? 1 : -1;
-                                                }
-                                                
-                                               } );
+                                                                if( a.status === b.status ) {
+                                                                  return nameA > nameB ? 1 : -1;
+                                                                }
+                                                              });
         
-        // console.log(sortedOnlineStatus)
         var userTemplateString = template({ items: sortedOnlineStatus });
-
         $twitchUsersAll.html( userTemplateString );       
-
     } 
 
     function collectUserStreams( twitchStreamers ) {
@@ -96,91 +85,45 @@
         var streamerList;
         var url;
         if (Array.isArray( twitchStreamers ) ) {
-                var streamerList = twitchStreamers.map(function (user) {
-                    url = "https://wind-bow.gomix.me/twitch-api/streams/" + user + "?api_version=3";
-                    return streamerAjax( url );
-                });
-                var channelList = twitchStreamers.map(function (user) {
-                    url = "https://wind-bow.gomix.me/twitch-api/channels/" + user + "?api_version=3";
-                    return streamerAjax( url );
-                });
-                var streamersChannelAndStreamData = streamerList.concat( channelList );
-                // console.log( streamersChannelAndStreamData );
-        } else {
-            url = "https://wind-bow.gomix.me/twitch-api/streams/" + twitchStreamers + "?api_version=3";
-            return [streamerAjax( url )];
-        }
-        // console.log( streamerList );
+          var streamerList = twitchStreamers.map(function (user) {
+            url = "https://wind-bow.gomix.me/twitch-api/streams/" + user + "?api_version=3";
+            return streamerAjax( url );
+          });
+          var channelList = twitchStreamers.map(function (user) {
+            url = "https://wind-bow.gomix.me/twitch-api/channels/" + user + "?api_version=3";
+            return streamerAjax( url );
+          });
+          var streamersChannelAndStreamData = streamerList.concat( channelList );
+         
+        } 
         return streamersChannelAndStreamData;
-
     }
-    // TODO: remove collectUserChannels, code is not used
-    function collectUserChannels( list ) {
-        var channelList;
-        var url;
-        if (Array.isArray(list)) {
-            var channelList = list.map(function (user) {
-                    url = "https://wind-bow.gomix.me/twitch-api/channels/" + user + "?api_version=3";
-                    return streamerAjax( url );
-                });
-        } else {
-            url = "https://wind-bow.gomix.me/twitch-api/channels/" + list + "?api_version=3";
-            return [streamerAjax( url )];
-        }
-        // console.log( channelList );
-        return channelList;     
-    }
-    
-    $.ajaxSetup({
-        type : "GET",
-        dataType : "jsonp",
-    });
-    
-    // TODO: remove getName
-    function getName(link) {
-
-        var match;
-        try {
-            match = matchChannelAndName.exec(link);
-            
-            return match[match.length - 1];
-        } catch (e) {
-            console.log(e);
-        }
-
-    }
-
+       
     function addStreamerToAllTwitchStreamers( user ) {
 
         var twitchStreamer = {};
-      
+        console.log( user );
         if ( user.error !== null && user.error === undefined ) {
-            twitchStreamer.name = user.name // getName(user["_links"]["channel"]);
+            twitchStreamer.name = user.name;
 
                 var url = "http://www.twitch.tv/" + twitchStreamer.name;
                 twitchStreamer["url"] = url;
                 twitchStreamer.status = user["stream"] === null ? "offline" : "online";
                 if (twitchStreamer.status === "online") { 
                     twitchStreamer.statusDetails = user["stream"]["channel"]["status"] ;
-                    twitchStreamer.logo = user.logo; // user["stream"]["channel"]["logo"] ;
+                    twitchStreamer.logo = user.logo; 
                     twitchStreamer.mediaIcon = "media-object fa fa-check";
                 } else {
                     twitchStreamer.statusDetails = "";
-                    // twitchStreamer.logo = "http://placehold.it/150x150";
-                    twitchStreamer.logo = user.logo;
+                    twitchStreamer.logo = user.logo || "http://placehold.it/150x150";
                     twitchStreamer.mediaIcon = "media-object fa fa-times";
                 } 
         } else {
-            // TODO: Remove commented out code
-            // var messageArray = user.message.split(" ");
-            // messageArray[1] = messageArray[1].replace(/'/g, "");
-            // var userName = messageArray[1]
-            // var messageString = messageArray.join(" ");
             twitchStreamer.name = user.name;
             twitchStreamer.status = "closed";
             twitchStreamer["url"] = "";
             twitchStreamer.statusDetails = user.message;
-            // twitchStreamer.logo = "http://placehold.it/150x150";
+            twitchStreamer.logo = "http://placehold.it/150x150";
             twitchStreamer.mediaIcon = "media-object fa fa-exclamation-triangle";
         }
 
@@ -232,25 +175,22 @@
     }
     
     function saveResultsAllTwitchStreamers( users ) {
-     /*  var args = Array.prototype.slice.call( arguments ),
-                 i = 0,
-             len = args.length;
-      */
+
       var names = [],
                      i = 0,
                  len = users.length;
-      // TODO: remove code Array.isArray, code is not touched
-      if (!Array.isArray( users )) {
-        names.push(addStreamerToAllTwitchStreamers(args[0]));
-      } else {
-        for (i; i < len; i++) {
-          // names.push(addStreamerToAllTwitchStreamers(args[i][0]));
-          names.push(addStreamerToAllTwitchStreamers( users[i] ) );
-        }
-      }   
+
+      for (i; i < len; i++) {
+        names.push(addStreamerToAllTwitchStreamers( users[i] ) );
+      }
+         
       return names;      
-        //allTwitchStreamers["streams"] = names;
     }
+    
+    $.ajaxSetup({
+        type : "GET",
+        dataType : "jsonp",
+    });
     
     function AjaxErrorHandler( xhr, status, errorThrown ){
       console.log("Sorry there was a problem.");
@@ -267,12 +207,12 @@
     
     var streamerAjax = function (url) {
 
-       return $.ajax({
-                    url : url,
-                    jsonp : "callback"
-                  });
+      return $.ajax({
+                            url : url,
+                        jsonp : "callback"
+                         });
     };
 
     makeAjaxCall(twitchStreamers);
 
-});
+})();
