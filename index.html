@@ -22,9 +22,14 @@
       <h2>Twitch Streamers Status</h2>
     </div>
 
-    <form>
-      <input class="form-control" id="twitch_user" type="text" placeholder="Twitch Streamer">
+    <form id="form" class="form-group">
+      <input class="form-control" id="twitch_user" type="text" placeholder="Twitch Streamer" aria-describedby="inputError2Status">
+      <span class="glyphicon" aria-hidden="true"></span>
+      <span id="status" class="sr-only">(error)</span>
       <button class="btn btn-primary" id="btn_twitch_user" type="submit">Submit</button>
+      <div>
+        <label class="control-label" for="inputWarning1"></label>
+      </div>
     </form>
 
 
